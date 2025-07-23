@@ -1,0 +1,191 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-disabled: var(--disabled);
+
+  --radius: var(--radius);
+}
+
+@layer base {
+  :root {
+    --background: #f9fafb;
+    --foreground: #141414;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: #fff;
+    --popover-foreground: #141414;
+
+    --primary: #0077c8;
+    --primary-foreground: #334155;
+
+    --secondary: #fff;
+    --secondary-foreground: #fff;
+
+    --muted: #fff;
+    --muted-foreground: #111827;
+
+    --accent: #f4f4f5;
+    --accent-foreground: #525252;
+
+    --destructive: #ef4444;
+    --destructive-foreground: #fff;
+
+    --warning: #eab308;
+    --warning-foreground: #000;
+
+    --success: #16a34a;
+    --success-foreground: #fff;
+
+    --border: #ddd9d9;
+    --input: 240 5.9% 90%;
+    --ring: 212.7 26.8% 83.9%;
+
+    --radius: 0.5rem;
+
+    --disabled: #b8b4b4;
+  }
+
+  :root[class~='dark'] {
+    --background: #1f2937;
+    --foreground: #fff;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: #1f2937;
+    --popover-foreground: #ddd9d9;
+
+    --primary: #0077c8;
+    --primary-foreground: #fff;
+
+    --secondary: #fff;
+    --secondary-foreground: #fff;
+
+    --muted: #111827;
+    --muted-foreground: #fff;
+
+    --accent: #1a2638;
+    --accent-foreground: #fff;
+
+    --destructive: #ef4444;
+    --destructive-foreground: #fff;
+
+    --warning: #eab308;
+    --warning-foreground: #000;
+
+    --success: #16a34a;
+    --success-foreground: #fff;
+
+    --border: #ddd9d946;
+    --input: 240 3.7% 15.9%;
+    --ring: 212.7 26.8% 83.9%;
+
+    --radius: 0.5rem;
+
+    --disabled: #b8b4b4;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-offset: -13px;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  html {
+    height: 100%;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0.25rem;
+    cursor: pointer;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: rgba(229, 231, 235, var(--bg-opacity));
+    cursor: pointer;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background-color: #a0aec0;
+    border-radius: 9999px;
+  }
+
+  input:focus-visible {
+    outline: none;
+  }
+}
+
+@layer utilities {
+  .underline-effect::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    border-radius: 50px;
+    background-color: var(--disabled);
+    transition: width 0.3s;
+    position: absolute;
+    bottom: 0px;
+  }
+
+  .underline-effect:hover::after,
+  .underline-effect:focus::after,
+  .underline-effect.active::after {
+    width: 100%;
+  }
+
+  .underline-effect-none:hover::after,
+  .underline-effect-none:focus::after,
+  .underline-effect-none.active::after {
+    width: 0%;
+  }
+
+  .bottom-arrow:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 8px solid var(--slate);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    margin: auto;
+  }
+}
