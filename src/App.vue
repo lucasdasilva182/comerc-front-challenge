@@ -1,9 +1,5 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue';
-</script>
+<script setup></script>
 
 <template>
-  <div class="flex items-center justify-center h-screen bg-gray-100">
-    <HelloWorld msg="Vite + Vue" />
-  </div>
+  <router-view />
 </template>
