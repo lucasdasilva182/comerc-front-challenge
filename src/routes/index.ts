@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
-// import type { AppRoutes } from './routeTypes';
 import { publicRoutes } from './publicRoutes';
 import { privateRoutes } from './privateRoutes';
 import { useAuthStore } from '../stores/authStore';
