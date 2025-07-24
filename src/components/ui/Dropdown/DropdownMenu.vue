@@ -8,10 +8,11 @@ interface Props {
   burgerSize?: string;
   navClasses?: string;
   userIconClasses?: string;
+  isOpen?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  id: () => Math.random().toString(36).substr(2, 9),
+  id: () => Math.random().toString(36),
   position: 'left',
   burgerSize: 'w-10 h-10',
   navClasses: 'bg-popover border border-border rounded-md shadow-lg p-2 min-w-[200px]',
@@ -20,7 +21,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const isOpen = ref(false);
 
-// Computa as classes de posição
 const positionClasses = computed(() => {
   return props.position === 'right'
     ? 'right-0 left-auto origin-top-right'

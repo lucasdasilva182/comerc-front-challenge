@@ -3,13 +3,6 @@ import type { Config } from 'tailwindcss';
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
-    container: {
-      center: true,
-      padding: '1rem',
-      screens: {
-        '2xl': '1800px',
-      },
-    },
     extend: {
       borderRadius: {
         lg: 'var(--radius)',
