@@ -44,7 +44,7 @@ const filteredData = computed(() => {
               v-for="column in columns"
               :key="column.key"
               scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+              class="px-6 py-3 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider"
               :class="column.class"
             >
               {{ column.label }}

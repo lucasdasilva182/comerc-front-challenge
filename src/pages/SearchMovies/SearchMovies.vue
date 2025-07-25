@@ -129,14 +129,20 @@ onMounted(() => {
       v-else-if="movies.length > 0"
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4"
     >
-      <div v-for="movie in movies" :key="movie.imdbID" class="border rounded p-4">
-        <MovieImage
-          :src="movie.Poster"
-          :alt="movie.Title"
-          class="w-full object-cover rounded aspect-[2/3]"
-        />
-        <h3 class="font-bold mt-2">{{ movie.Title }}</h3>
-        <p class="text-sm text-muted-foreground">{{ movie.Year }}</p>
+      <div
+        v-for="movie in movies"
+        :key="movie.imdbID"
+        class="flex flex-col justify-between border rounded p-4"
+      >
+        <div>
+          <MovieImage
+            :src="movie.Poster"
+            :alt="movie.Title"
+            class="w-full object-cover rounded aspect-[2/3]"
+          />
+          <h3 class="font-bold mt-2">{{ movie.Title }}</h3>
+          <p class="text-sm text-muted-foreground">{{ movie.Year }}</p>
+        </div>
 
         <div class="mt-4">
           <Button @click="openRentalModal(movie)" variant="primary" class="w-full">
