@@ -10,7 +10,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  class: {
+  imgClass: {
     type: String,
     default: '',
   },
@@ -36,7 +36,14 @@ const loadImage = () => {
 };
 
 const getDefaultImage = () => {
-  return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQ1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHBhdGggZD0iTTAgMGgzMDB2NDUwSDB6IiBzdHlsZT0iZmlsbDojZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIG5vdCBhdmFpbGFibGU8L3RleHQ+PC9zdmc+';
+  return (
+    'data:image/svg+xml;base64,' +
+    'PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQ1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48' +
+    'cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHBhdGggZD0iTTAgMGgzMDB2' +
+    'NDUwSDB6IiBzdHlsZT0iZmlsbDojZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJB' +
+    'cmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0i' +
+    'PkltYWdlIG5vdCBhdmFpbGFibGU8L3RleHQ+PC9zdmc+'
+  );
 };
 
 const handleError = (event) => {
@@ -51,5 +58,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <img :src="imageSrc" :alt="alt" :class="class" @error="handleError" />
+  <img :src="imageSrc" :alt="alt" :class="imgClass" @error="handleError" />
 </template>

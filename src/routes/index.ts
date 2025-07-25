@@ -27,7 +27,7 @@ export const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const authStore = useAuthStore();
 
   if (to.meta.title) {
@@ -47,7 +47,7 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-router.afterEach((to, from, failure) => {
+router.afterEach((_to, _from, failure) => {
   if (!failure) {
     window.scrollTo(0, 0);
   }

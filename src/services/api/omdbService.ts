@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const omdbClient = axios.create({
-  baseURL: `${import.meta.env.VITE_OMDB_BASE_URL}/?apikey=${import.meta.env.VITE_OMDB_API_KEY}&`,
+  baseURL: `https://www.omdbapi.com/?apikey=d9bb3531&`,
 });
 
 export interface OmdbMovie {
