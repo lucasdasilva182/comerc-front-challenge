@@ -67,7 +67,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
   <button :type="type" :class="computedClasses" :disabled="isDisabled">
     <svg
       v-if="loading"
-      class="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
+      class="animate-spin h-4 w-4 text-current"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -87,7 +87,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
       ></path>
     </svg>
 
-    <span class="flex gap-1">
+    <span v-if="!loading" class="flex gap-1">
       <slot />
     </span>
   </button>

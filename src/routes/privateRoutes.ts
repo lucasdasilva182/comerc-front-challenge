@@ -20,6 +20,8 @@ export const privateRoutes: AppRoutes = [
     },
     props: (route) => ({ query: route.query.search }),
   },
+
+  // System Users Routes
   {
     path: '/systemUsers',
     name: 'Users',
@@ -45,6 +47,35 @@ export const privateRoutes: AppRoutes = [
     meta: {
       requiresAuth: true,
       title: 'Editar Usuário',
+    },
+  },
+
+  //Customer Routes
+  {
+    path: '/customers',
+    name: 'Customers',
+    component: () => import('@/pages/Customers/CustomersList.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'Customers',
+    },
+  },
+  {
+    path: '/customers/new',
+    name: 'NewCustomer',
+    component: () => import('@/pages/Customers/CustomerForm.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'New Customer',
+    },
+  },
+  {
+    path: '/customers/:id/edit',
+    name: 'EditCustomer',
+    component: () => import('@/pages/Customers/CustomerForm.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'Edit Customer',
     },
   },
 ];
