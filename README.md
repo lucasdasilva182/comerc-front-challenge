@@ -3,6 +3,8 @@
 Sistema completo de gerenciamento de locação de filmes com autenticação, CRUD de usuários, filmes e
 locações.
 
+[Veja o projeto online](https://cticket.netlify.app/)
+
 ## 🚀 Tecnologias
 
 - **Vue 3** + **TypeScript**
