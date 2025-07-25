@@ -10,14 +10,14 @@ const routes = [
     children: [
       ...publicRoutes,
       ...privateRoutes,
-      // {
-      //   path: '/:pathMatch(.*)*',
-      //   name: 'NotFound',
-      //   component: () => import('@/pages/NotFound.vue'),
-      //   meta: {
-      //     title: 'Page Not Found',
-      //   },
-      // },
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: () => import('@/pages/NotFound.vue'),
+        meta: {
+          title: 'Page Not Found',
+        },
+      },
     ],
   },
 ] as RouteRecordRaw[];

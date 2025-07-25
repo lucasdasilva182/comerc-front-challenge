@@ -115,7 +115,7 @@ const onSubmit = handleSubmit((values) => {
 
 <template>
   <div
-    class="container flex flex-col min-h-auto mx-auto p-4"
+    class="container-pages flex flex-col min-h-auto mx-auto p-4"
     :style="{ minHeight: `calc(100vh - ${142}px)` }"
   >
     <div class="flex-grow flex items-center justify-center">

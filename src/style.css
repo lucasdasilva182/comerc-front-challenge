@@ -209,3 +209,10 @@
     }
   }
 }
+
+@layer components {
+  .container-pages {
+    @apply container mx-auto p-4;
+    min-height: calc(100vh - 142px) !important;
+  }
+}
