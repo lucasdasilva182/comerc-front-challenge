@@ -3,9 +3,9 @@ import Button from '@/components/ui/Button.vue';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import Input from '@/components/ui/Input.vue';
-import { CircleAlert, Search } from 'lucide-vue-next';
+import { CircleAlert, Search, ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import { omdbService } from '@/services/api/omdbService';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
 import Checkbox from '@/components/ui/Checkbox.vue';
@@ -20,6 +20,9 @@ const loading = ref(false);
 const error = ref('');
 const selectedMovie = ref(null);
 const isRentalModalOpen = ref(false);
+const currentPage = ref(1);
+const totalPages = ref(1);
+const totalResults = ref(0);
 
 const schema = yup.object({
   search: yup.string().required(),
@@ -27,12 +30,22 @@ const schema = yup.object({
   onlyMovies: yup.boolean().optional(),
 });
 
-const { handleSubmit, setFieldValue } = useForm({
+const { handleSubmit, setFieldValue, values } = useForm({
   validationSchema: schema,
 });
 
-const performSearch = async (searchTerm) => {
-  if (!searchTerm?.search.trim()) {
+const paginationInfo = computed(() => {
+  const start = (currentPage.value - 1) * 10 + 1;
+  const end = Math.min(currentPage.value * 10, totalResults.value);
+  return {
+    start,
+    end,
+    total: totalResults.value,
+  };
+});
+
+const performSearch = async (searchTerm, page = 1) => {
+  if (!searchTerm?.search?.trim()) {
     return;
   }
 
@@ -40,32 +53,73 @@ const performSearch = async (searchTerm) => {
   error.value = '';
 
   try {
-    router.push({ query: { search: searchTerm.search } });
+    const queryParams = {
+      search: searchTerm.search,
+      page: page.toString(),
+    };
+
+    if (searchTerm.year) {
+      queryParams.year = searchTerm.year;
+    }
+
+    if (searchTerm.onlyMovies) {
+      queryParams.onlyMovies = searchTerm.onlyMovies.toString();
+    }
+
+    router.push({ query: queryParams });
 
     const year = searchTerm.year?.trim() || undefined;
     const type = searchTerm.onlyMovies ? 'movie' : '';
 
-    const response = await omdbService.searchMovies(searchTerm.search, year, type, 1);
+    const response = await omdbService.searchMovies(searchTerm.search, year, type, page);
 
     if (response.Response === 'True') {
       movies.value = response.Search;
+      totalResults.value = parseInt(response.totalResults) || 0;
+      totalPages.value = Math.ceil(totalResults.value / 10);
+      currentPage.value = page;
     } else {
       error.value = response.Error || 'No movies found';
       toast.error('No movies found');
       movies.value = [];
+      totalResults.value = 0;
+      totalPages.value = 1;
+      currentPage.value = 1;
     }
   } catch (err) {
     error.value = 'Error fetching movies';
     toast.error('Error fetching movies');
     movies.value = [];
+    totalResults.value = 0;
+    totalPages.value = 1;
+    currentPage.value = 1;
   } finally {
     loading.value = false;
   }
 };
 
 const searchMovies = handleSubmit((values) => {
-  performSearch(values);
+  currentPage.value = 1;
+  performSearch(values, 1);
 });
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value && page !== currentPage.value) {
+    performSearch(values, page);
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    goToPage(currentPage.value + 1);
+  }
+};
+
+const previousPage = () => {
+  if (currentPage.value > 1) {
+    goToPage(currentPage.value - 1);
+  }
+};
 
 const openRentalModal = (movie) => {
   selectedMovie.value = movie;
@@ -84,7 +138,26 @@ const handleRentalCreated = () => {
 onMounted(() => {
   if (route.query.search) {
     setFieldValue('search', route.query.search);
-    performSearch({ search: route.query.search });
+
+    const page = route.query.page ? parseInt(route.query.page) : 1;
+    currentPage.value = page;
+
+    if (route.query.year) {
+      setFieldValue('year', route.query.year);
+    }
+
+    if (route.query.onlyMovies) {
+      setFieldValue('onlyMovies', route.query.onlyMovies === 'true');
+    }
+
+    performSearch(
+      {
+        search: route.query.search,
+        year: route.query.year,
+        onlyMovies: route.query.onlyMovies === 'true',
+      },
+      page
+    );
   }
 });
 </script>
@@ -149,6 +222,75 @@ onMounted(() => {
             Rent Movie
           </Button>
         </div>
+      </div>
+    </div>
+
+    <div
+      v-if="movies.length > 0 && totalPages > 1"
+      class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-6"
+    >
+      <div class="text-sm text-muted-foreground">
+        Showing {{ paginationInfo.start }} to {{ paginationInfo.end }} of
+        {{ paginationInfo.total }} results
+      </div>
+
+      <div class="flex items-center gap-2">
+        <Button @click="previousPage" variant="ghost" :disabled="currentPage === 1" class="p-2">
+          <ChevronLeft class="w-4 h-4" />
+        </Button>
+
+        <div class="flex items-center gap-1">
+          <Button
+            v-if="totalPages > 1"
+            @click="goToPage(1)"
+            variant="outline"
+            :class="currentPage === 1 ? '!bg-slate-900 !text-slate-50' : ''"
+            class="p-2 w-10 h-10"
+          >
+            1
+          </Button>
+
+          <span v-if="currentPage > 3 && totalPages > 5" class="px-2">...</span>
+
+          <template
+            v-for="page in Array.from({ length: Math.min(2, totalPages - 2) }, (_, i) => {
+              const startPage = Math.max(2, currentPage - 1);
+              return startPage + i;
+            })"
+            :key="page"
+          >
+            <Button
+              v-if="page > 1 && page < totalPages"
+              @click="goToPage(page)"
+              variant="outline"
+              :class="currentPage === page ? '!bg-slate-900 !text-slate-50' : ''"
+              class="p-2 w-10 h-10"
+            >
+              {{ page }}
+            </Button>
+          </template>
+
+          <span v-if="currentPage < totalPages - 2 && totalPages > 4" class="px-2">...</span>
+
+          <Button
+            v-if="totalPages > 1"
+            @click="goToPage(totalPages)"
+            variant="outline"
+            :class="currentPage === totalPages ? '!bg-slate-900 !text-slate-50' : ''"
+            class="p-2 w-10 h-10"
+          >
+            {{ totalPages }}
+          </Button>
+        </div>
+
+        <Button
+          @click="nextPage"
+          variant="ghost"
+          :disabled="currentPage === totalPages"
+          class="p-2"
+        >
+          <ChevronRight class="w-4 h-4" />
+        </Button>
       </div>
     </div>
 
