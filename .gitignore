@@ -14,7 +14,6 @@ dist-ssr
 
 # Arquivos de ambiente
 .env
-.env.*
 
 # Editor directories and files
 .vscode/*
