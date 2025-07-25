@@ -28,7 +28,7 @@ export const privateRoutes: AppRoutes = [
     component: () => import('@/pages/SystemUsers/SystemUserList.vue'),
     meta: {
       requiresAuth: true,
-      title: 'Usuários',
+      title: 'System Users',
     },
   },
   {
@@ -37,7 +37,7 @@ export const privateRoutes: AppRoutes = [
     component: () => import('@/pages/SystemUsers/UserForm.vue'),
     meta: {
       requiresAuth: true,
-      title: 'Novo Usuário',
+      title: 'New User',
     },
   },
   {
@@ -46,7 +46,7 @@ export const privateRoutes: AppRoutes = [
     component: () => import('@/pages/SystemUsers/UserForm.vue'),
     meta: {
       requiresAuth: true,
-      title: 'Editar Usuário',
+      title: 'Edit User',
     },
   },
 
@@ -87,24 +87,6 @@ export const privateRoutes: AppRoutes = [
     meta: {
       requiresAuth: true,
       title: 'Rentals',
-    },
-  },
-  {
-    path: '/rentals/new',
-    name: 'NewRental',
-    component: () => import('@/pages/Rentals/RentalForm.vue'),
-    meta: {
-      requiresAuth: true,
-      title: 'New Rental',
-    },
-  },
-  {
-    path: '/rentals/:id/edit',
-    name: 'EditRental',
-    component: () => import('@/pages/Rentals/RentalForm.vue'),
-    meta: {
-      requiresAuth: true,
-      title: 'Edit Rental',
     },
   },
 ];

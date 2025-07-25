@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CircleAlert } from 'lucide-vue-next';
 import { useField } from 'vee-validate';
 import { computed } from 'vue';
 

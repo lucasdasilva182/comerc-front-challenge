@@ -62,10 +62,6 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('pt-BR');
 };
 
-const editRental = (rentalId) => {
-  router.push(`/rentals/${rentalId}/edit`);
-};
-
 const deleteRental = (rentalId) => {
   if (confirm('Are you sure you want to delete this rental?')) {
     try {
@@ -89,8 +85,8 @@ const filteredRentals = computed(() => {
 
   if (statusFilter.value !== 'all') {
     const statusMap = {
-      rented: 'Alugado',
-      returned: 'Entregue',
+      rented: 'rented',
+      returned: 'returned',
     };
     filtered = filtered.filter((rental) => rental.status === statusMap[statusFilter.value]);
   }
@@ -230,9 +226,6 @@ onMounted(() => {
 
       <template #cell-actions="{ item }">
         <div class="flex items-center justify-end gap-2">
-          <Button @click="editRental(item.id)" variant="ghost" size="sm">
-            <Edit3 class="w-4 h-4" />
-          </Button>
           <Button
             @click="deleteRental(item.id)"
             variant="ghost"

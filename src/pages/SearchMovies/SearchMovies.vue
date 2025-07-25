@@ -10,6 +10,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
 import Checkbox from '@/components/ui/Checkbox.vue';
 import MovieImage from '@/components/MovieImage.vue';
+import RentalFormModal from '@/components/rentals/RentalFormModal.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -17,6 +18,8 @@ const router = useRouter();
 const movies = ref([]);
 const loading = ref(false);
 const error = ref('');
+const selectedMovie = ref(null);
+const isRentalModalOpen = ref(false);
 
 const schema = yup.object({
   search: yup.string().required(),
@@ -63,6 +66,20 @@ const performSearch = async (searchTerm) => {
 const searchMovies = handleSubmit((values) => {
   performSearch(values);
 });
+
+const openRentalModal = (movie) => {
+  selectedMovie.value = movie;
+  isRentalModalOpen.value = true;
+};
+
+const closeRentalModal = () => {
+  isRentalModalOpen.value = false;
+  selectedMovie.value = null;
+};
+
+const handleRentalCreated = () => {
+  toast.success('Rental created successfully!');
+};
 
 onMounted(() => {
   if (route.query.search) {
@@ -120,7 +137,20 @@ onMounted(() => {
         />
         <h3 class="font-bold mt-2">{{ movie.Title }}</h3>
         <p class="text-sm text-muted-foreground">{{ movie.Year }}</p>
+
+        <div class="mt-4">
+          <Button @click="openRentalModal(movie)" variant="primary" class="w-full">
+            Rent Movie
+          </Button>
+        </div>
       </div>
     </div>
+
+    <RentalFormModal
+      :is-open="isRentalModalOpen"
+      :movie="selectedMovie"
+      @close="closeRentalModal"
+      @rental-created="handleRentalCreated"
+    />
   </div>
 </template>
