@@ -16,6 +16,9 @@ const searchQuery = ref('');
 const goToSearchMoviePage = () => {
   router.push({ path: '/searchMovies', query: { search: searchQuery.value } });
 };
+const goToCustomersPage = () => {
+  router.push({ path: '/customers' });
+};
 const goToSystemUserPage = () => {
   router.push({ path: '/systemUsers' });
 };
@@ -62,7 +65,7 @@ const goToSystemUserPage = () => {
           You can view detailed information about all customers. You can also edit existing
           customers or register new ones.
         </p>
-        <Button @click="goToSearchMoviePage" class="mt-2">Customers Management</Button>
+        <Button @click="goToCustomersPage" class="mt-2">Customers Management</Button>
       </div>
       <div class="border rounded p-4 flex flex-col items-center gap-4">
         <User strokeWidth="{1}" size="80" />

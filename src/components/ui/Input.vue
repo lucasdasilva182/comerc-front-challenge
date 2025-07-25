@@ -28,6 +28,12 @@ const props = withDefaults(defineProps<Props>(), {
   class: '',
 });
 
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string | number): void;
+  (e: 'blur', value: Event): void;
+  (e: 'input', value: Event): void;
+}>();
+
 const { value, errorMessage, handleBlur, handleChange } = useField(() => props.name, undefined, {
   syncVModel: true,
 });
@@ -49,6 +55,19 @@ const computedClasses = computed(() => [...baseClasses, errorClasses.value, prop
 const finalErrorMessage = computed(() => {
   return props.error || errorMessage.value || '';
 });
+
+const handleInput = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  value.value = target.value;
+  emit('update:modelValue', target.value);
+  handleChange(event);
+  emit('input', event);
+};
+
+const handleBlurEvent = (event: Event) => {
+  handleBlur(event);
+  emit('blur', event);
+};
 </script>
 
 <template>
@@ -69,10 +88,10 @@ const finalErrorMessage = computed(() => {
       :type="type"
       :placeholder="placeholder"
       :disabled="disabled"
-      v-model="value"
+      :value="value"
       :class="computedClasses"
-      @blur="handleBlur"
-      @input="handleChange"
+      @blur="handleBlurEvent"
+      @input="handleInput"
     />
 
     <transition name="slide-fade">

@@ -79,12 +79,7 @@ onMounted(() => {
       class="flex flex-col md:grid md:grid-cols-12 items-top gap-4 md:gap-2 mb-8"
     >
       <div class="relative w-full col-span-5">
-        <Input
-          label="Search"
-          name="search"
-          placeholder="Search for a movie"
-          onblur="searchMovies"
-        />
+        <Input label="Search" name="search" placeholder="Search for a movie" @blur="searchMovies" />
         <Button
           type="submit"
           variant="ghost"

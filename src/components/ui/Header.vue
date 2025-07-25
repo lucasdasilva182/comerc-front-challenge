@@ -21,17 +21,17 @@ const itemsMenu = ref([
     },
   },
   {
-    label: 'Users',
-    icon: User,
-    action: () => {
-      router.push({ path: '/users' });
-    },
-  },
-  {
     label: 'Customers',
     icon: HandHelping,
     action: () => {
       router.push({ path: '/customers' });
+    },
+  },
+  {
+    label: 'System Users',
+    icon: User,
+    action: () => {
+      router.push({ path: '/systemUsers' });
     },
   },
   {
