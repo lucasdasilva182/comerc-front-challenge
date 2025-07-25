@@ -116,7 +116,7 @@ const sizeClasses = {
           </button>
         </div>
 
-        <div class="p-6">
+        <div v-if="variant !== 'confirmation'" class="p-6">
           <slot />
         </div>
 
@@ -129,7 +129,7 @@ const sizeClasses = {
               <Button @click="handleCancel" variant="outline" type="button">
                 {{ cancelText }}
               </Button>
-              <Button @click="handleConfirm" variant="primary" type="button">
+              <Button @click="handleConfirm" variant="danger" type="button">
                 {{ confirmText }}
               </Button>
             </template>

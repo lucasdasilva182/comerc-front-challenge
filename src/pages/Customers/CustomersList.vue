@@ -5,6 +5,7 @@ import Input from '@/components/ui/Input.vue';
 import Table from '@/components/ui/Table.vue';
 import { Edit3, Trash2, UserPlus } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
+import Modal from '@/components/ui/Modal.vue';
 
 const router = useRouter();
 const customers = ref([]);
@@ -38,6 +39,33 @@ const columns = [
     class: 'text-right',
   },
 ];
+
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('en-US');
+};
+const editCustomer = (customerId) => {
+  router.push(`/customers/${customerId}/edit`);
+};
+
+const isDeleteModalOpen = ref(false);
+const customerToDelete = ref(null);
+
+const openDeleteConfirmation = (customerId) => {
+  customerToDelete.value = customerId;
+  isDeleteModalOpen.value = true;
+};
+
+const closeDeleteConfirmation = () => {
+  isDeleteModalOpen.value = false;
+  customerToDelete.value = null;
+};
+
+const confirmDelete = () => {
+  if (customerToDelete.value) {
+    deleteCustomer(customerToDelete.value);
+  }
+  closeDeleteConfirmation();
+};
 const loadCustomers = () => {
   try {
     const customersData = JSON.parse(localStorage.getItem('systemCustomers') || '[]');
@@ -46,24 +74,18 @@ const loadCustomers = () => {
     customers.value = [];
   }
 };
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('en-US');
-};
-const editCustomer = (customerId) => {
-  router.push(`/customers/${customerId}/edit`);
-};
+
 const deleteCustomer = (customerId) => {
-  if (confirm('Are you sure you want to delete this customer?')) {
-    try {
-      const customersData = JSON.parse(localStorage.getItem('systemCustomers') || '[]');
-      const updatedCustomers = customersData.filter((customer) => customer.id !== customerId);
-      localStorage.setItem('systemCustomers', JSON.stringify(updatedCustomers));
-      loadCustomers();
-    } catch (error) {
-      alert('Error deleting customer');
-    }
+  try {
+    const customersData = JSON.parse(localStorage.getItem('systemCustomers') || '[]');
+    const updatedCustomers = customersData.filter((customer) => customer.id !== customerId);
+    localStorage.setItem('systemCustomers', JSON.stringify(updatedCustomers));
+    loadCustomers();
+  } catch (error) {
+    alert('Error deleting customer');
   }
 };
+
 const filteredCustomers = computed(() => {
   let filtered = customers.value;
 
@@ -177,7 +199,7 @@ onMounted(() => {
             <Edit3 class="w-4 h-4" />
           </Button>
           <Button
-            @click="deleteCustomer(item.id)"
+            @click="openDeleteConfirmation(item.id)"
             variant="ghost"
             size="sm"
             class="!text-destructive !hover:text-destructive"
@@ -187,5 +209,17 @@ onMounted(() => {
         </div>
       </template>
     </Table>
+
+    <Modal
+      :is-open="isDeleteModalOpen"
+      title="Delete Customer"
+      description="Are you sure you want to delete this customer? This action cannot be undone."
+      confirm-text="Delete"
+      cancel-text="Cancel"
+      variant="confirmation"
+      @close="closeDeleteConfirmation"
+      @confirm="confirmDelete"
+      @cancel="closeDeleteConfirmation"
+    />
   </div>
 </template>

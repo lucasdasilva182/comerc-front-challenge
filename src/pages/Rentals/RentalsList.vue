@@ -6,6 +6,7 @@ import Table from '@/components/ui/Table.vue';
 import { Edit3, Trash2, Plus } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
 import Select from '@/components/ui/Select.vue';
+import Modal from '@/components/ui/Modal.vue';
 
 const router = useRouter();
 const rentals = ref([]);
@@ -62,16 +63,32 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('pt-BR');
 };
 
+const isDeleteModalOpen = ref(false);
+const rentalToDelete = ref(null);
+const openDeleteConfirmation = (rentalId) => {
+  rentalToDelete.value = rentalId;
+  isDeleteModalOpen.value = true;
+};
+
+const closeDeleteConfirmation = () => {
+  isDeleteModalOpen.value = false;
+  customerToDelete.value = null;
+};
+
+const confirmDelete = () => {
+  if (rentalToDelete.value) {
+    deleteRental(rentalToDelete.value);
+  }
+  closeDeleteConfirmation();
+};
 const deleteRental = (rentalId) => {
-  if (confirm('Are you sure you want to delete this rental?')) {
-    try {
-      const rentalsData = JSON.parse(localStorage.getItem('systemRentals') || '[]');
-      const updatedRentals = rentalsData.filter((rental) => rental.id !== rentalId);
-      localStorage.setItem('systemRentals', JSON.stringify(updatedRentals));
-      loadRentals();
-    } catch (error) {
-      alert('Error deleting rental');
-    }
+  try {
+    const rentalsData = JSON.parse(localStorage.getItem('systemRentals') || '[]');
+    const updatedRentals = rentalsData.filter((rental) => rental.id !== rentalId);
+    localStorage.setItem('systemRentals', JSON.stringify(updatedRentals));
+    loadRentals();
+  } catch (error) {
+    alert('Error deleting rental');
   }
 };
 
@@ -227,7 +244,7 @@ onMounted(() => {
       <template #cell-actions="{ item }">
         <div class="flex items-center justify-end gap-2">
           <Button
-            @click="deleteRental(item.id)"
+            @click="openDeleteConfirmation(item.id)"
             variant="ghost"
             size="sm"
             class="!text-destructive !hover:text-destructive"
@@ -237,5 +254,17 @@ onMounted(() => {
         </div>
       </template>
     </Table>
+
+    <Modal
+      :is-open="isDeleteModalOpen"
+      title="Delete Rental"
+      description="Are you sure you want to delete this rental? This action cannot be undone."
+      confirm-text="Delete"
+      cancel-text="Cancel"
+      variant="confirmation"
+      @close="closeDeleteConfirmation"
+      @confirm="confirmDelete"
+      @cancel="closeDeleteConfirmation"
+    />
   </div>
 </template>
