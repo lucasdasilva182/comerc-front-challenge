@@ -12,7 +12,7 @@ export const privateRoutes: AppRoutes = [
   {
     path: '/searchMovies',
     name: 'SearchMovies',
-    component: () => import('@/pages/SearchMovies.vue'),
+    component: () => import('@/pages/SearchMovies/SearchMovies.vue'),
     meta: {
       title: 'Search Movies',
     },

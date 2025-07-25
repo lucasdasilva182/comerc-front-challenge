@@ -8,7 +8,8 @@ import { omdbService } from '@/services/api/omdbService';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
-import Checkbox from '../components/ui/Checkbox.vue';
+import Checkbox from '@/components/ui/Checkbox.vue';
+import MovieImage from '@/components/MovieImage.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -96,8 +97,8 @@ onMounted(() => {
       <div class="col-span-4">
         <Input label="Movie year" name="year" placeholder="Type a year" v-mask="['####']" />
       </div>
-      <div class="col-span-3 w-full flex flex-col justify-end">
-        <div class="h-10 flex items-center gap-2">
+      <div class="col-span-3 w-full flex flex-col justify-start">
+        <div class="h-10 flex items-center gap-2 md:mt-6">
           <Checkbox name="onlyMovies" />
           <span class="whitespace-nowrap font-semibold">Only movies</span>
         </div>
@@ -115,7 +116,7 @@ onMounted(() => {
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4"
     >
       <div v-for="movie in movies" :key="movie.imdbID" class="border rounded p-4">
-        <img
+        <MovieImage
           :src="movie.Poster"
           :alt="movie.Title"
           class="w-full object-cover rounded aspect-[2/3]"

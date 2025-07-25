@@ -8,21 +8,21 @@ export const publicRoutes: AppRoutes = [
     meta: {
       title: 'Home',
     },
-    // },
-    // {
-    //   path: '/login',
-    //   name: 'Login',
-    //   component: () => import('@/pages/auth/Login.vue'),
-    //   meta: {
-    //     title: 'Login',
-    //   },
-    // },
-    // {
-    //   path: '/register',
-    //   name: 'Register',
-    //   component: () => import('@/pages/auth/Register.vue'),
-    //   meta: {
-    //     title: 'Register',
-    //   },
   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/pages/auth/Login.vue'),
+    meta: {
+      title: 'Login',
+    },
+  },
+  // {
+  //   path: '/register',
+  //   name: 'Register',
+  //   component: () => import('@/pages/auth/Register.vue'),
+  //   meta: {
+  //     title: 'Register',
+  //   },
+  // },
 ];

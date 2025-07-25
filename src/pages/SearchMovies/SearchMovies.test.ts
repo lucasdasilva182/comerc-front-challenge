@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import SearchMovies from '@/pages/SearchMovies.vue';
-import { omdbService } from '../services/api/omdbService';
+import SearchMovies from '@/pages/SearchMovies/SearchMovies.vue';
+import { omdbService } from '../../services/api/omdbService';
 const mockPush = vi.fn();
 const mockRoute = {
   query: {},
