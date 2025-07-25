@@ -16,6 +16,9 @@ const searchQuery = ref('');
 const goToSearchMoviePage = () => {
   router.push({ path: '/searchMovies', query: { search: searchQuery.value } });
 };
+const goToRentalsPage = () => {
+  router.push({ path: '/rentals' });
+};
 const goToCustomersPage = () => {
   router.push({ path: '/customers' });
 };
@@ -56,7 +59,7 @@ const goToSystemUserPage = () => {
           You can view detailed information about all movie rentals, including rental history, due
           dates, and both rental and return dates.
         </p>
-        <Button @click="goToSearchMoviePage" class="mt-2">Rentals Management</Button>
+        <Button @click="goToRentalsPage" class="mt-2">Rentals Management</Button>
       </div>
       <div class="border rounded p-4 flex flex-col items-center gap-4">
         <HandHelping strokeWidth="{1}" size="80" />

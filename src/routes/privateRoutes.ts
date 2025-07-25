@@ -78,4 +78,33 @@ export const privateRoutes: AppRoutes = [
       title: 'Edit Customer',
     },
   },
+
+  // Rentals Routes
+  {
+    path: '/rentals',
+    name: 'Rentals',
+    component: () => import('@/pages/Rentals/RentalsList.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'Rentals',
+    },
+  },
+  {
+    path: '/rentals/new',
+    name: 'NewRental',
+    component: () => import('@/pages/Rentals/RentalForm.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'New Rental',
+    },
+  },
+  {
+    path: '/rentals/:id/edit',
+    name: 'EditRental',
+    component: () => import('@/pages/Rentals/RentalForm.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'Edit Rental',
+    },
+  },
 ];
