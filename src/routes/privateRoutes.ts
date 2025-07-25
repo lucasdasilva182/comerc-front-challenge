@@ -20,4 +20,31 @@ export const privateRoutes: AppRoutes = [
     },
     props: (route) => ({ query: route.query.search }),
   },
+  {
+    path: '/systemUsers',
+    name: 'Users',
+    component: () => import('@/pages/SystemUsers/SystemUserList.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'Usuários',
+    },
+  },
+  {
+    path: '/systemUsers/new',
+    name: 'NewUser',
+    component: () => import('@/pages/SystemUsers/UserForm.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'Novo Usuário',
+    },
+  },
+  {
+    path: '/systemUsers/:id/edit',
+    name: 'EditUser',
+    component: () => import('@/pages/SystemUsers/UserForm.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'Editar Usuário',
+    },
+  },
 ];

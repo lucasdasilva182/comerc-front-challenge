@@ -14,7 +14,7 @@ const loading = ref(false);
 const error = ref('');
 
 const loginSchema = yup.object({
-  email: yup.string().email('Invalid email').required('Email is required'),
+  cpf: yup.string().required('CPF is required'),
   password: yup
     .string()
     .min(6, 'Password must be at least 6 characters long')
@@ -23,7 +23,7 @@ const loginSchema = yup.object({
 
 const registerSchema = yup.object({
   name: yup.string().min(2, 'Name must be at least 2 characters long').required('Name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
+  cpf: yup.string().required('CPF is required'),
   password: yup
     .string()
     .min(6, 'Password must be at least 6 characters long')
@@ -50,9 +50,12 @@ const handleLogin = handleSubmit(async (values) => {
 
   try {
     const users = JSON.parse(localStorage.getItem('systemUsers') || '[]');
-    const user = users.find(
-      (user) => user.email === values.email && user.password === values.password
-    );
+    const user = users.find((user) => user.cpf === values.cpf && user.password === values.password);
+
+    if (!user.isActive) {
+      error.value = 'User is inactive';
+      return;
+    }
 
     if (user) {
       const userData = { ...user, password: undefined };
@@ -60,7 +63,7 @@ const handleLogin = handleSubmit(async (values) => {
       authStore.login(userData);
       router.push('/');
     } else {
-      error.value = 'Email or password is incorrect';
+      error.value = 'CPF or password is incorrect';
     }
   } catch (err) {
     error.value = 'Error logging in';
@@ -75,18 +78,19 @@ const handleRegister = handleSubmit(async (values) => {
 
   try {
     const users = JSON.parse(localStorage.getItem('systemUsers') || '[]');
-    const existingUser = users.find((user) => user.email === values.email);
+    const existingUser = users.find((user) => user.cpf === values.cpf);
 
     if (existingUser) {
-      error.value = 'Email already is registered';
+      error.value = 'CPF already is registered';
       return;
     }
 
     const newUser = {
       id: Date.now().toString(),
       name: values.name,
-      email: values.email,
+      cpf: values.cpf,
       password: values.password,
+      isActive: true,
       createdAt: new Date().toISOString(),
     };
 
@@ -139,7 +143,13 @@ const onSubmit = handleSubmit((values) => {
               <Input name="name" label="Full name" placeholder="Enter your name" type="text" />
             </template>
 
-            <Input name="email" label="Email" placeholder="you@email.com" type="email" />
+            <Input
+              name="cpf"
+              label="CPF"
+              placeholder="Enter your CPF"
+              type="text"
+              v-mask="['###.###.###-##']"
+            />
 
             <Input name="password" label="Password" placeholder="••••••••" type="password" />
 

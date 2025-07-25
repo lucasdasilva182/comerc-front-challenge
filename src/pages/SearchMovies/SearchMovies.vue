@@ -3,7 +3,7 @@ import Button from '@/components/ui/Button.vue';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import Input from '@/components/ui/Input.vue';
-import { Search } from 'lucide-vue-next';
+import { CircleAlert, Search } from 'lucide-vue-next';
 import { omdbService } from '@/services/api/omdbService';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -105,8 +105,10 @@ onMounted(() => {
       </div>
     </form>
 
-    <div v-if="error" class="text-destructive mt-4">
-      {{ error }}
+    <div v-if="error" class="text-center text-destructive mt-4">
+      <p class="flex items-center justify-center gap-2 font-semibold">
+        <CircleAlert size="20" /> {{ error }}
+      </p>
     </div>
 
     <div v-if="loading" class="text-center mt-4">Carregando...</div>
