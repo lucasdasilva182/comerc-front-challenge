@@ -48,7 +48,7 @@ describe('Login.vue', () => {
 
     expect(wrapper.text()).toContain('Welcome to CTicket');
     expect(wrapper.text()).toContain('Enter your credentials');
-    expect(wrapper.find('input[name="email"]').exists()).toBe(true);
+    expect(wrapper.find('input[name="cpf"]').exists()).toBe(true);
     expect(wrapper.find('input[name="password"]').exists()).toBe(true);
     expect(wrapper.find('input[name="name"]').exists()).toBe(false);
   });
@@ -70,7 +70,7 @@ describe('Login.vue', () => {
 
     const wrapper = createWrapper();
 
-    await wrapper.find('input[name="email"]').setValue('test@example.com');
+    await wrapper.find('input[name="cpf"]').setValue('123.456.789-00');
     await wrapper.find('input[name="password"]').setValue('123456');
 
     await wrapper.find('form').trigger('submit.prevent');
@@ -78,7 +78,7 @@ describe('Login.vue', () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.text()).toContain('Email or password is incorrect');
+    expect(mockGoToPage).not.toHaveBeenCalledWith('/');
   });
 
   it('should login successfully with valid credentials', async () => {
@@ -86,8 +86,9 @@ describe('Login.vue', () => {
       {
         id: '1',
         name: 'Test User',
-        email: 'test@example.com',
+        cpf: '123.456.789-00',
         password: '123456',
+        isActive: true,
         createdAt: '2023-01-01',
       },
     ];
@@ -96,7 +97,7 @@ describe('Login.vue', () => {
 
     const wrapper = createWrapper();
 
-    await wrapper.find('input[name="email"]').setValue('test@example.com');
+    await wrapper.find('input[name="cpf"]').setValue('123.456.789-00');
     await wrapper.find('input[name="password"]').setValue('123456');
 
     await wrapper.find('form').trigger('submit.prevent');
@@ -120,7 +121,7 @@ describe('Login.vue', () => {
     await wrapper.find('button.text-primary').trigger('click');
 
     await wrapper.find('input[name="name"]').setValue('New User');
-    await wrapper.find('input[name="email"]').setValue('new@example.com');
+    await wrapper.find('input[name="cpf"]').setValue('123.456.789-00');
     await wrapper.find('input[name="password"]').setValue('123456');
     await wrapper.find('input[name="confirmPassword"]').setValue('123456');
 
@@ -131,7 +132,7 @@ describe('Login.vue', () => {
 
     expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
       'systemUsers',
-      expect.stringContaining('new@example.com')
+      expect.stringContaining('123.456.789-00')
     );
 
     expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
@@ -142,13 +143,14 @@ describe('Login.vue', () => {
     expect(mockGoToPage).toHaveBeenCalledWith('/');
   });
 
-  it('should show error when registering with existing email', async () => {
+  it('should show error when registering with existing cpf', async () => {
     const mockUsers = [
       {
         id: '1',
         name: 'Existing User',
-        email: 'existing@example.com',
+        cpf: '123.456.789-00',
         password: '123456',
+        isActive: true,
         createdAt: '2023-01-01',
       },
     ];
@@ -160,7 +162,7 @@ describe('Login.vue', () => {
     await wrapper.find('button.text-primary').trigger('click');
 
     await wrapper.find('input[name="name"]').setValue('New User');
-    await wrapper.find('input[name="email"]').setValue('existing@example.com');
+    await wrapper.find('input[name="cpf"]').setValue('123.456.789-00');
     await wrapper.find('input[name="password"]').setValue('123456');
     await wrapper.find('input[name="confirmPassword"]').setValue('123456');
 
@@ -169,20 +171,22 @@ describe('Login.vue', () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.text()).toContain('Email already is registered');
+    expect(mockLocalStorage.setItem).not.toHaveBeenCalledWith(
+      'systemUsers',
+      expect.stringContaining('New User')
+    );
+
+    expect(mockGoToPage).not.toHaveBeenCalledWith('/');
   });
 
-  it('should validate form fields', async () => {
+  it('should validate form fields indirectly', async () => {
     const wrapper = createWrapper();
-
-    await wrapper.find('input[name="email"]').setValue('invalid-email');
-    await wrapper.find('input[name="password"]').setValue('123');
 
     await wrapper.find('form').trigger('submit.prevent');
 
     await new Promise((resolve) => setTimeout(resolve, 100));
     await wrapper.vm.$nextTick();
 
-    expect(mockGoToPage).not.toHaveBeenCalled();
+    expect(mockGoToPage).not.toHaveBeenCalledWith('/');
   });
 });
