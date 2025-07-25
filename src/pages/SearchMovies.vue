@@ -38,14 +38,10 @@ const performSearch = async (searchTerm) => {
   try {
     router.push({ query: { search: searchTerm.search } });
 
-    let type = '';
-    if (searchTerm.onlyMovies == true) {
-      type = 'movie';
-    } else {
-      type = '';
-    }
+    const year = searchTerm.year?.trim() || undefined;
+    const type = searchTerm.onlyMovies ? 'movie' : '';
 
-    const response = await omdbService.searchMovies(searchTerm.search, searchTerm.year, type);
+    const response = await omdbService.searchMovies(searchTerm.search, year, type, 1);
 
     if (response.Response === 'True') {
       movies.value = response.Search;
@@ -64,8 +60,6 @@ const performSearch = async (searchTerm) => {
 };
 
 const searchMovies = handleSubmit((values) => {
-  console.log(values);
-
   performSearch(values);
 });
 
