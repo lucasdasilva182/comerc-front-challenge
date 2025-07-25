@@ -16,6 +16,9 @@ const searchQuery = ref('');
 const goToSearchMoviePage = () => {
   router.push({ path: '/searchMovies', query: { search: searchQuery.value } });
 };
+const goToSystemUserPage = () => {
+  router.push({ path: '/systemUsers' });
+};
 </script>
 
 <template>
@@ -68,7 +71,7 @@ const goToSearchMoviePage = () => {
           You can view detailed information about all system users, including their roles and
           permissions. You can also edit existing users or register new ones.
         </p>
-        <Button @click="goToSearchMoviePage" class="mt-2">System User Management</Button>
+        <Button @click="goToSystemUserPage" class="mt-2">System User Management</Button>
       </div>
     </div>
   </div>

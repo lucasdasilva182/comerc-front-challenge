@@ -87,7 +87,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
       ></path>
     </svg>
 
-    <span>
+    <span class="flex gap-1">
       <slot />
     </span>
   </button>
