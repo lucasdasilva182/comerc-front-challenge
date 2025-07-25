@@ -24,7 +24,7 @@ locações.
 ### 1. Clone o repositório
 
 ```bash
-git clone <seu-repositorio-url>
+git clone https://github.com/lucasdasilva182/comerc-front-challenge.git
 cd comerc-front-challenge
 ```
 
@@ -159,7 +159,3 @@ docker push seu-usuario/cticket-app:latest
 ## 📄 Licença
 
 MIT License - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
----
-
-**Happy coding!** 🎉
