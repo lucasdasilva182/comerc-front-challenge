@@ -27,29 +27,29 @@ export const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
+// router.beforeEach((to, from, next) => {
+//   const authStore = useAuthStore();
 
-  if (to.meta.title) {
-    document.title = `${to.meta.title} - Comerc Front Challenge`;
-  }
+//   if (to.meta.title) {
+//     document.title = `${to.meta.title} - Comerc Front Challenge`;
+//   }
 
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+//   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
-  if (requiresAuth && !authStore.isAuthenticated) {
-    next({
-      name: 'Login',
-      query: { redirect: to.fullPath },
-    });
-  } else if (to.name === 'Login' && authStore.isAuthenticated) {
-    next({ name: 'Home' });
-  } else {
-    next();
-  }
-});
+//   if (requiresAuth && !authStore.isAuthenticated) {
+//     next({
+//       name: 'Login',
+//       query: { redirect: to.fullPath },
+//     });
+//   } else if (to.name === 'Login' && authStore.isAuthenticated) {
+//     next({ name: 'Home' });
+//   } else {
+//     next();
+//   }
+// });
 
-router.afterEach((to, from, failure) => {
-  if (!failure) {
-    window.scrollTo(0, 0);
-  }
-});
+// router.afterEach((to, from, failure) => {
+//   if (!failure) {
+//     window.scrollTo(0, 0);
+//   }
+// });

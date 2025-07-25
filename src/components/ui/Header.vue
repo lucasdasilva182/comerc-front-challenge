@@ -9,21 +9,21 @@ const router = useRouter();
 
 const itemsMenu = ref([
   {
-    label: 'Locações',
+    label: 'Locations',
     icon: Clapperboard,
     action: () => {
       router.push({ path: '/locations' });
     },
   },
   {
-    label: 'Usuários',
+    label: 'Users',
     icon: User,
     action: () => {
       router.push({ path: '/users' });
     },
   },
   {
-    label: 'Clientes',
+    label: 'Customers',
     icon: HandHelping,
     action: () => {
       router.push({ path: '/customers' });

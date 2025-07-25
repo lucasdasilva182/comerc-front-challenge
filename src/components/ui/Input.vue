@@ -28,13 +28,6 @@ const props = withDefaults(defineProps<Props>(), {
   class: '',
 });
 
-// const emit = defineEmits<{
-//   (e: 'update:modelValue', value: string | number): void;
-//   (e: 'input', value: Event): void;
-//   (e: 'blur', value: Event): void;
-//   (e: 'focus', value: Event): void;
-// }>();
-
 const { value, errorMessage, handleBlur, handleChange } = useField(() => props.name, undefined, {
   syncVModel: true,
 });

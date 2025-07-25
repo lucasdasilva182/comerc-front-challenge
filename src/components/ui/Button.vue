@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const baseClasses = [
   'inline-flex items-center justify-center font-bold uppercase transition-all border-0 rounded-lg cursor-pointer active:opacity-85 hover:opacity-90 leading-pro ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25',
-  'focus:outline-none focus:ring-2 focus:ring-offset-2',
+  // 'focus:outline-none focus:ring-2 focus:ring-offset-2',
   'disabled:opacity-50 disabled:cursor-not-allowed disabled:active:opacity-50',
 ];
 
